@@ -13,7 +13,11 @@
         {{ error }}
       </div>
       <div v-else>
-        <div v-for="memo in memos" :key="memo.id" class="mb-2.5 leading-normal">
+        <div
+          v-for="memo in memos"
+          :key="memo.id"
+          class="mb-2 flex gap-2 leading-normal"
+        >
           <el-tag
             type="danger"
             size="mini"
@@ -22,9 +26,17 @@
           >
             <el-icon> <Delete /> </el-icon>
           </el-tag>
-          <el-tag size="mini" class="timestamp mr-1 text-xs text-gray-500">{{
+          <el-tag
+            type="warning"
+            size="mini"
+            @click="handleCopyMemo(memo.content)"
+            class="cursor-pointer"
+          >
+            <el-icon> <CopyDocument /> </el-icon>
+          </el-tag>
+          <!-- <el-tag size="mini" class="timestamp mr-1 text-xs text-gray-500">{{
             formatTimestamp(memo.timestamp)
-          }}</el-tag>
+          }}</el-tag> -->
           <template v-if="memo.type === 'text'">
             <span class="break-words whitespace-pre-wrap">{{
               memo.content
@@ -127,7 +139,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Delete } from "@element-plus/icons-vue";
+import { Delete, CopyDocument } from "@element-plus/icons-vue";
 
 // import interfaces
 import {
@@ -192,6 +204,12 @@ const handleDeleteMemo = async (id: number) => {
   } finally {
     isSubmitting.value = false;
   }
+};
+
+// 複製筆記內容
+const handleCopyMemo = async (content: string) => {
+  await navigator.clipboard.writeText(content);
+  ElMessage.success("複製成功！");
 };
 
 // 處理訊息或檔案發送的邏輯
