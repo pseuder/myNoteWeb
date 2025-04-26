@@ -37,37 +37,39 @@
           <!-- <el-tag size="mini" class="timestamp mr-1 text-xs text-gray-500">{{
             formatTimestamp(memo.timestamp)
           }}</el-tag> -->
-          <template v-if="memo.type === 'text'">
-            <span class="break-words whitespace-pre-wrap">{{
-              memo.content
-            }}</span>
-          </template>
-          <template v-else-if="memo.type === 'file' && memo.file_key">
-            <span>
-              檔案:
-              <a
-                :href="getDownloadUrl(memo.file_key)"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-600 no-underline hover:underline"
-              >
-                {{ memo.content }}
-              </a>
-              <span class="ml-1 text-sm text-gray-700"
-                >({{ formatFileSize(memo.file_size) }})</span
-              >
-            </span>
-          </template>
+          <div class="flex flex-col">
+            <template v-if="memo.type === 'text'">
+              <span class="break-words whitespace-pre-wrap">{{
+                memo.content
+              }}</span>
+            </template>
+            <template v-else-if="memo.type === 'file' && memo.file_key">
+              <span>
+                檔案:
+                <a
+                  :href="getDownloadUrl(memo.file_key)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 no-underline hover:underline"
+                >
+                  {{ memo.content }}
+                </a>
+                <span class="ml-1 text-sm text-gray-700"
+                  >({{ formatFileSize(memo.file_size) }})</span
+                >
+              </span>
+            </template>
 
-          <!-- 如果為file_type含image且file_url有值則用img顯示預覽 -->
-          <template v-if="memo.type === 'file' && memo.file_key">
-            <img
-              v-if="memo.file_type?.includes('image')"
-              :src="getDownloadUrl(memo.file_key)"
-              alt="Image preview"
-              class="mt-2 max-h-40 w-auto rounded border border-gray-300"
-            />
-          </template>
+            <!-- 如果為file_type含image且file_url有值則用img顯示預覽 -->
+            <template v-if="memo.type === 'file' && memo.file_key">
+              <img
+                v-if="memo.file_type?.includes('image')"
+                :src="getDownloadUrl(memo.file_key)"
+                alt="Image preview"
+                class="mt-2 max-h-40 w-auto rounded border border-gray-300"
+              />
+            </template>
+          </div>
         </div>
       </div>
       <div
