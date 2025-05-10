@@ -115,7 +115,7 @@
           v-model="newMessage"
           type="textarea"
           placeholder="輸入訊息..."
-          @keydown.enter.prevent="handleSendMessage('text')"
+          @keydown="handleKeyDown"
           :disabled="isSubmitting || isUploading"
           class="mb-2.5 min-h-[40px] flex-grow resize-none md:mr-2.5 md:mb-0"
           :autosize="{ minRows: 1, maxRows: 4 }"
@@ -343,6 +343,20 @@ const scrollToBottom = async () => {
   await nextTick();
   if (historyContainer.value) {
     historyContainer.value.scrollTop = historyContainer.value.scrollHeight;
+  }
+};
+
+// 處理鍵盤事件，區分中文輸入法選字的Enter和一般的Enter
+const handleKeyDown = (event: KeyboardEvent) => {
+  // 如果正在輸入法組字中，不處理Enter鍵
+  if (event.isComposing || event.keyCode === 229) {
+    return;
+  }
+
+  // 只有在按下Enter且沒有按下Shift鍵時才發送訊息
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    handleSendMessage("text");
   }
 };
 
