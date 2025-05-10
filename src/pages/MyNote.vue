@@ -237,7 +237,6 @@ const handleSendMessage = async (sendType: "text" | "file") => {
     if (sendType === "text") {
       // 傳送一般文字訊息
       let newID = await sendTextMessage(newMessage.value);
-      console.log("New message ID:", newID);
       // 將新訊息加入到前端列表
       const newUserMemo: Memo = {
         id: newID,

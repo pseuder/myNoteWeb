@@ -92,14 +92,15 @@ export const deleteMemo = async (id: number): Promise<void> => {
 /**
  * 發送文字訊息
  * @param text 訊息內容
- * @returns Promise<string>
+ * @returns Promise<number>
  */
 export const sendTextMessage = async (text: string): Promise<number> => {
     // 這個請求會經過攔截器，自動帶上 Authorization header (如果 localStorage 有 token)
-    return handleApiResponse<number>(
+    const res = await handleApiResponse<{ id: number }>( 
         axios.post(`${API_BASE_URL}/messages`, { text }),
         "傳送文字訊息失敗"
     );
+    return res.id;
 };
 
 /**
