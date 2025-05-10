@@ -66,7 +66,7 @@
                 v-if="memo.file_type?.includes('image')"
                 :src="getDownloadUrl(memo.file_key)"
                 alt="Image preview"
-                class="mt-2 max-h-40 w-auto rounded border border-gray-300"
+                class="mt-2 max-h-40 w-fit rounded border border-gray-300"
               />
             </template>
           </div>
