@@ -140,7 +140,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
-import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage } from "element-plus";
 import { Delete, CopyDocument } from "@element-plus/icons-vue";
 
 // import interfaces
@@ -149,7 +149,6 @@ import {
   deleteMemo,
   sendTextMessage,
   uploadFile,
-  verifyPassword,
   getDownloadUrl,
 } from "../utils";
 import type { Memo } from "../utils";
@@ -359,63 +358,10 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
 };
 
-// 掛載時的邏輯，呼叫 utils 中的 verifyPassword 和 fetchHistory
+// 掛載時載入歷史紀錄
 onMounted(async () => {
-  let password = localStorage.getItem("myNote");
-  let verified = false;
-  let hasVerificationError = false; // 新增一個標記來處理驗證失敗後的流程
-
-  if (password) {
-    try {
-      // 呼叫 utils 中的 verifyPassword
-      await verifyPassword(password);
-      verified = true;
-    } catch (error: any) {
-      console.error("Stored password verification error:", error);
-      localStorage.removeItem("myNote"); // 儲存的密碼無效，移除它
-      password = null;
-      ElMessage.warning(`儲存的密碼已失效：${error.message || "請重新輸入"}`);
-      hasVerificationError = true; // 標記發生驗證錯誤
-    }
-  }
-
-  // 如果沒有驗證成功且沒有發生嚴重的驗證錯誤 (例如網路錯誤導致無法顯示彈窗)
-  if (!verified && !hasVerificationError) {
-    try {
-      const { value: myPassword } = await ElMessageBox.prompt(
-        "請輸入密碼",
-        "驗證",
-        {
-          confirmButtonText: "確定",
-          cancelButtonText: "取消",
-          inputType: "password",
-          inputValidator: (val) => !!val,
-          inputErrorMessage: "密碼不能為空",
-        },
-      );
-      password = myPassword;
-      // 呼叫 utils 中的 verifyPassword
-      await verifyPassword(password);
-      verified = true;
-      localStorage.setItem("myNote", password); // 驗證成功，儲存新密碼
-      ElMessage.success("密碼正確，開始使用筆記功能");
-    } catch (error: any) {
-      if (error !== "cancel" && error !== "close") {
-        // 欺騙其他人
-        ElMessage.success("密碼正確，開始使用筆記功能");
-        hasVerificationError = true; // 標記發生錯誤，阻止後續載入
-      } else {
-        ElMessage.info("已取消驗證");
-        hasVerificationError = true; // 標記已取消，阻止後續載入
-      }
-    }
-  }
-
-  // 只有在成功驗證後才載入歷史紀錄
-  if (verified) {
-    await loadHistory();
-    await nextTick();
-    scrollToBottom();
-  }
+  await loadHistory();
+  await nextTick();
+  scrollToBottom();
 });
 </script>
