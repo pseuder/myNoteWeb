@@ -7,7 +7,7 @@
       @tab-click="handleClick"
     >
       <el-tab-pane label="MyNote" name="MyNote" class="h-full"
-        ><MyNote class="" v-if="isAuthenticated"
+        ><MyNote v-if="isAuthenticated"
       /></el-tab-pane>
       <el-tab-pane label="MySecret" name="MySecret" class="h-full"
         ><MySecret v-if="isAuthenticated"
