@@ -1,8 +1,8 @@
 import axios from 'axios';
 
+
 // 定義 API 的基礎 URL
-// const API_BASE_URL = "https://my-note-worker.iop890520.workers.dev/api";
-const API_BASE_URL = "http://localhost:8787/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 // 定義 Memo 介面，方便型別檢查
 export interface Memo {
