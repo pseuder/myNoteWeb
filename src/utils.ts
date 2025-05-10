@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 // 定義 API 的基礎 URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
