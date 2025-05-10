@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // 定義 API 的基礎 URL
-const API_BASE_URL = "https://my-note-worker.iop890520.workers.dev/api";
+// const API_BASE_URL = "https://my-note-worker.iop890520.workers.dev/api";
+const API_BASE_URL = "http://localhost:8787/api";
 
 // 定義 Memo 介面，方便型別檢查
 export interface Memo {
@@ -154,12 +155,6 @@ export const uploadFile = async (file: File, onProgress: (percent: number) => vo
  * @returns Promise<void>
  */
 export const verifyPassword = async (password: string): Promise<void> => {
-    // 這個請求會經過攔截器，自動帶上 Authorization header (如果 localStorage 有 token)
-    // 注意：如果驗證密碼是為了獲取 token，可能這個請求本身不需要帶 token
-    // 但攔截器會嘗試帶上。如果你需要區分，可以建立一個獨立的 Axios 實例或在攔截器中排除特定路徑。
-    // 在此假設驗證密碼的 API 也需要驗證身份（例如：重新驗證或更改密碼的場景）
-    // 如果驗證密碼是獲取 token 的第一步，那應該在獲取 token 成功後，才將 token 存入 localStorage，
-    // 這樣後面的請求才會自動帶上。
     return handleApiResponse<void>(
         axios.post(`${API_BASE_URL}/verifyPassword`, { password }),
         "密碼驗證失敗"
@@ -169,7 +164,6 @@ export const verifyPassword = async (password: string): Promise<void> => {
 
 /**
  * 獲取檔案下載 URL
- * 這個函數本身不發送 Axios 請求，所以不需要攔截器
  * @param fileKey 檔案儲存的 key
  * @returns 檔案下載的 URL 字串
  */

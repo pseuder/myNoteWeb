@@ -20,7 +20,7 @@
         >
           <el-tag
             type="danger"
-            size="mini"
+            size="small"
             @click="handleDeleteMemo(memo.id)"
             class="cursor-pointer"
           >
@@ -28,7 +28,7 @@
           </el-tag>
           <el-tag
             type="warning"
-            size="mini"
+            size="small"
             @click="handleCopyMemo(memo.content)"
             class="cursor-pointer"
           >
@@ -318,27 +318,6 @@ const handleUploadFile = async () => {
     uploadProgress.value = null; // 上傳失敗也清空進度顯示
   } finally {
     isUploading.value = false;
-  }
-};
-
-// 時間戳格式化函數 (保留在元件中，這是 UI 呈現邏輯)
-const formatTimestamp = (isoString: string) => {
-  try {
-    const date = new Date(isoString);
-    if (isNaN(date.getTime())) {
-      return isoString;
-    }
-    return date.toLocaleString("zh-TW", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-  } catch (e) {
-    console.error("Error formatting timestamp:", e);
-    return isoString;
   }
 };
 

@@ -6,7 +6,7 @@
 1. Cloudflare Pages:  部屬該網頁
 
 - TypeScript
-- Jest
+- vitest
 - Playwright
 
 ## 後端

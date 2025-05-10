@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
@@ -22,5 +23,14 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src'),
     }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    css: true,
+    deps: { // Put deps.inline back under test, despite deprecation warning
+      inline: ['element-plus'],
+    },
   },
 });
