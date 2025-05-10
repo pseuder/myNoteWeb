@@ -103,20 +103,6 @@ export const sendTextMessage = async (text: string): Promise<number> => {
     return res.id;
 };
 
-/**
- * 發送訊息給 AI 服務 (WorkersAI 或 AutoRAG)
- * @param type 'WorkersAI' | 'AutoRAG'
- * @param text 訊息內容
- * @returns Promise<string> - AI 回應的文字內容
- */
-export const sendAIMessage = async (type: 'WorkersAI' | 'AutoRAG', text: string): Promise<string> => {
-    const endpoint = type === 'WorkersAI' ? '/workersai' : '/autorag';
-    // 這個請求會經過攔截器，自動帶上 Authorization header (如果 localStorage 有 token)
-    return handleApiResponse<string>(
-        axios.post(`${API_BASE_URL}${endpoint}`, { text }),
-        `傳送訊息給 ${type} 失敗`
-    );
-};
 
 /**
  * 上傳檔案
