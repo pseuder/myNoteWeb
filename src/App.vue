@@ -1,20 +1,37 @@
 <template>
   <div class="flex h-screen flex-col items-center justify-center">
-    <MyNote v-if="isAuthenticated" />
-    <div v-else class="text-center">
-      <div v-if="isLoading" class="p-5 text-gray-500">驗證中...</div>
-    </div>
+    <el-tabs
+      v-model="activeName"
+      type="card"
+      class="h-full"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane label="MyNote" name="MyNote" class="h-full"
+        ><MyNote class="" v-if="isAuthenticated"
+      /></el-tab-pane>
+      <el-tab-pane label="MySecret" name="MySecret" class="h-full"
+        ><MySecret v-if="isAuthenticated"
+      /></el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import MyNote from "@/pages/MyNote.vue";
+import type { TabsPaneContext } from "element-plus";
+const activeName = ref("MyNote");
+
 import { verifyPassword } from "./utils";
+import MyNote from "@/pages/MyNote.vue";
+import MySecret from "./pages/MySecret.vue";
 
 const isAuthenticated = ref(false);
 const isLoading = ref(false);
+
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab, event);
+};
 
 // 掛載時的邏輯，呼叫 utils 中的 verifyPassword
 onMounted(async () => {
@@ -75,4 +92,8 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style>
+.el-tabs__header {
+  margin: 0px !important;
+}
+</style>

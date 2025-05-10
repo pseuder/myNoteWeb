@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-full w-full flex-col rounded-none border-none md:max-w-3xl md:rounded md:border md:border-gray-300"
+    class="mx-auto flex h-full w-full flex-col rounded-none border-none md:max-w-3xl md:rounded md:border md:border-gray-300"
   >
     <div
       ref="historyContainer"
