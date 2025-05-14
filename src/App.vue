@@ -3,7 +3,7 @@
     <el-tabs
       v-model="activeName"
       type="card"
-      class="h-full"
+      class="h-full w-full"
       @tab-click="handleClick"
     >
       <el-tab-pane label="MyNote" name="MyNote" class="h-full"

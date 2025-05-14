@@ -156,3 +156,41 @@ export const verifyPassword = async (password: string): Promise<void> => {
 export const getDownloadUrl = (fileKey: string): string => {
   return `${API_BASE_URL}/download/${fileKey}`;
 };
+
+/**
+ * 定義 Secret 介面，用於儲存秘密筆記內容
+ */
+export interface Secret {
+  id: number;
+  content: string;
+  timestamp: string;
+}
+
+/**
+ * 獲取秘密筆記內容
+ * @returns Promise<Secret | null> 返回最新的秘密筆記內容，如果沒有則返回 null
+ */
+export const fetchSecrets = async (): Promise<Secret | null> => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/secrets`);
+    return response.data.data || null;
+  } catch (error: any) {
+    console.error("獲取秘密筆記內容失敗:", error);
+    throw new Error(error.message || "獲取秘密筆記內容失敗");
+  }
+};
+
+/**
+ * 保存秘密筆記內容
+ * @param content 要保存的筆記內容
+ * @returns Promise<number> 返回新建記錄的 ID
+ */
+export const saveSecrets = async (content: string): Promise<number> => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/secrets`, { content });
+    return response.data.id;
+  } catch (error: any) {
+    console.error("保存秘密筆記內容失敗:", error);
+    throw new Error(error.message || "保存秘密筆記內容失敗");
+  }
+};
