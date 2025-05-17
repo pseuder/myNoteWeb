@@ -12,6 +12,9 @@
       <el-tab-pane label="MySecret" name="MySecret" class="h-full"
         ><MySecret v-if="isAuthenticated"
       /></el-tab-pane>
+      <el-tab-pane label="MyTopSecret" name="MyTopSecret" class="h-full"
+        ><MyTopSecret v-if="isAuthenticated"
+      /></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -25,6 +28,7 @@ const activeName = ref("MyNote");
 import { verifyPassword } from "./utils";
 import MyNote from "@/pages/MyNote.vue";
 import MySecret from "./pages/MySecret.vue";
+import MyTopSecret from "./pages/MyTopSecret.vue";
 
 const isAuthenticated = ref(false);
 const isLoading = ref(false);
